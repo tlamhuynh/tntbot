@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 function WooAPI(opt) {
-
+  if (!(this instanceof WooAPI)) {
+      return new WooAPI(opt);
+  }
 }
 
 WooAPI.prototype.getCategories = function(){

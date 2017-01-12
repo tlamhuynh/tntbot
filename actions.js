@@ -1,9 +1,11 @@
 const wooapi = require('./wooapi.js')
-function actions() {
-
+function BotActions() {
+    if (!(this instanceof BotActions)) {
+        return new BotActions();
+    }
 }
 
-actions.prototype.sendCategoriesList = function(sender){
+BotActions.prototype.sendCategoriesList = function(sender){
   console.log(sender)
   let element = botly.createListElement({
       title: "Classic T-Shirt Collection",
@@ -34,4 +36,4 @@ actions.prototype.sendCategoriesList = function(sender){
 
 
 
-module.exports = actions;
+module.exports = BotActions;
