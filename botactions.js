@@ -1,5 +1,14 @@
 const WooAPI = require('./wooapi.js')
 const wooAPI = new WooAPI();
+const Config = require('./const.js');
+const Botly = require("botly");
+const botly = new Botly({
+    verifyToken: Config.FB_VERIFY_TOKEN,
+    accessToken: Config.FB_PAGE_TOKEN
+});
+
+
+
 function BotActions() {
     if (!(this instanceof BotActions)) {
         return new BotActions();
