@@ -25,10 +25,10 @@ BotActions.prototype.sendCategoriesList = function(sender){
             image_url: category.image.src,
             subtitle: category.description,
             buttons: [
-                {title: "Chọn", payload: "DO_WORK"},
+                botly.createPostbackButton("Chọn", "chon_phan_muc")
             ],
 
-        });
+        };
 
        elements.push(element)
     })
