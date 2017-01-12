@@ -8,12 +8,14 @@ const http = require('http');
 
 const port = process.env.PORT || 5000;
 const Config = require('./const.js');
-const actions = require('./actions.js')
+const BotActions = require('./actions.js')
 const Botly = require("botly");
 const botly = new Botly({
     verifyToken: Config.FB_VERIFY_TOKEN,
     accessToken: Config.FB_PAGE_TOKEN
 });
+
+const botActions = new BotActions();
 
 var app = express();
 
@@ -161,7 +163,7 @@ botly.on('postback', (sender, message, postback) => {
 	 console.log(postback);
 		switch (postback) {
 			case 'start_shopping':
-				actions.sendCategoriesList(sender)
+				botActions.sendCategoriesList(sender)
 				break;
 
 

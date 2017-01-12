@@ -32,7 +32,7 @@ BotActions.prototype.sendCategoriesList = function(sender){
   botly.sendList({id: sender, elements: [element, element2], buttons: botly.createPostbackButton("Continue", "continue"), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE},function (err, data) {
       console.log("send list cb:", err, data);
   });
-}
+};
 
 
 
