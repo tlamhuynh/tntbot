@@ -2,7 +2,7 @@
 
 // Wit.ai parameters
 //const WIT_TOKEN = process.env.WIT_TOKEN;
-const WIT_TOKEN = "wittoken";
+const WIT_TOKEN = "ZH62LCXDJ4PQDSN6IMWJ77BA6GI262TP";
 if (!WIT_TOKEN) {
   throw new Error('missing WIT_TOKEN');
 }
@@ -20,6 +20,8 @@ var FB_VERIFY_TOKEN = process.env.FB_VERIFY_TOKEN;
 if (!FB_VERIFY_TOKEN) {
   FB_VERIFY_TOKEN = "anhtuandeptrailaday";
 }
+
+
 
 
 

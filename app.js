@@ -17,136 +17,102 @@ const botly = new Botly({
 
 const botActions = new BotActions();
 
+
+const Wit = require('node-wit').Wit;
+const log = require('node-wit').log;
+const sessions = {};
+
+const findOrCreateSession = (fbid) => {
+  let sessionId;
+  // Let's see if we already have a session for the user fbid
+  Object.keys(sessions).forEach(k => {
+    if (sessions[k].fbid === fbid) {
+      // Yep, got it!
+      sessionId = k;
+    }
+  });
+  if (!sessionId) {
+    // No session found for user fbid, let's create a new one
+    sessionId = new Date().toISOString();
+    sessions[sessionId] = {fbid: fbid, context: {}};
+  }
+  return sessionId;
+};
+
+
+
+
+
+const actions = {
+  send({sessionId}, {text}) {
+    // Our bot has something to say!
+    // Let's retrieve the Facebook user whose session belongs to
+    const recipientId = sessions[sessionId].fbid;
+    if (recipientId) {
+      // Yay, we found our recipient!
+      // Let's forward our bot response to her.
+      // We return a promise to let our bot know when we're done sending
+      return fbMessage(recipientId, text)
+      .then(() => null)
+      .catch((err) => {
+        console.error(
+          'Oops! An error occurred while forwarding the response to',
+          recipientId,
+          ':',
+          err.stack || err
+        );
+      });
+    } else {
+      console.error('Oops! Couldn\'t find user for session:', sessionId);
+      // Giving the wheel back to our bot
+      return Promise.resolve()
+    }
+  },
+  // You should implement your custom actions here
+  // See https://wit.ai/docs/quickstart
+};
+
+// Setting up our bot
+const wit = new Wit({
+  accessToken: Config.WIT_TOKEN,
+  actions,
+  logger: new log.Logger(log.INFO)
+});
+
+
 var app = express();
 
 var users = {};
 
 botly.on('message', (sender, message, data) => {
-    let text = `echo: ${data.text}`;
+    let text = data.text;
+    const sessionId = findOrCreateSession(sender);
 
-    if (users[sender]) {
-        if (data && data.text && data.text.indexOf("image") !== -1) {
-            botly.sendImage({id: sender, url:"https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg"}, function (err, whatever) {
-                console.log(err);
-            });
-        }
-        else if (data && data.text &&data.text.indexOf("buttons") !== -1) {
-            let buttons = [];
-            buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
-            buttons.push(botly.createPostbackButton("Continue", "continue"));
-            botly.sendButtons({id: sender, text: "What do you want to do next?", buttons: buttons}, function (err, data) {
-                console.log("send buttons cb:", err, data);
-            });
-        }
-        else if (data && data.text && data.text.indexOf("generic") !== -1) {
-            let buttons = [];
-            buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
-            buttons.push(botly.createPostbackButton("Continue", "continue"));
-            let element = {
-                title: 'What do you want to do next?',
-                item_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
-                image_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
-                subtitle: 'Choose now!',
-                buttons: [botly.createWebURLButton('Go to Askrround', 'http://askrround.com')]
-            };
-            botly.sendGeneric({id: sender, elements:element}, function (err, data) {
-                console.log("send generic cb:", err, data);
-            });
-        }
-        else if (data && data.text && data.text.indexOf("list") !== -1) {
-            let element = botly.createListElement({
-                title: "Classic T-Shirt Collection",
-                image_url: "https://peterssendreceiveapp.ngrok.io/img/collection.png",
-                subtitle: "See all our colors",
-                buttons: [
-                    {title: "DO WORK", payload: "DO_WORK"},
-                ],
-                default_action: {
-                    "url": "https://peterssendreceiveapp.ngrok.io/shop_collection",
-                }
-            });
-            let element2 = botly.createListElement({
-                title: "Number 2",
-                image_url: "https://peterssendreceiveapp.ngrok.io/img/collection.png",
-                subtitle: "See all our colors",
-                buttons: [
-                    {title: "Go to Askrround", url: "http://askrround.com"},
-                ],
-                default_action: {
-                    "url": "https://peterssendreceiveapp.ngrok.io/shop_collection",
-                }
-            });
-            botly.sendList({id: sender, elements: [element, element2], buttons: botly.createPostbackButton("Continue", "continue"), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE},function (err, data) {
-                console.log("send list cb:", err, data);
-            });
-        }
-        else if (data && data.text && data.text.indexOf("quick") !== -1) {
-            botly.sendText({id: sender, text:"some question?", quick_replies: [botly.createQuickReply('option1', 'option_1')]}, function (err, data) {
-                console.log("send generic cb:", err, data);
-            });
-        }
-        else if (data && data.text && data.text.indexOf("receipt") !== -1) {
-            let payload = {
-                "recipient_name": "Stephane Crozatier",
-                "order_number": "12345678902",
-                "currency": "USD",
-                "payment_method": "Visa 2345",
-                "order_url": "http://petersapparel.parseapp.com/order?order_id=123456",
-                "timestamp": "1428444852",
-                "elements": [
-                    {
-                        "title": "Classic White T-Shirt",
-                        "subtitle": "100% Soft and Luxurious Cotton",
-                        "quantity": 2,
-                        "price": 50,
-                        "currency": "USD",
-                        "image_url": "http://petersapparel.parseapp.com/img/whiteshirt.png"
-                    },
-                    {
-                        "title": "Classic Gray T-Shirt",
-                        "subtitle": "100% Soft and Luxurious Cotton",
-                        "quantity": 1,
-                        "price": 25,
-                        "currency": "USD",
-                        "image_url": "http://petersapparel.parseapp.com/img/grayshirt.png"
-                    }
-                ],
-                "address": {
-                    "street_1": "1 Hacker Way",
-                    "street_2": "",
-                    "city": "Menlo Park",
-                    "postal_code": "94025",
-                    "state": "CA",
-                    "country": "US"
-                },
-                "summary": {
-                    "subtotal": 75.00,
-                    "shipping_cost": 4.95,
-                    "total_tax": 6.19,
-                    "total_cost": 56.14
-                },
-                "adjustments": [
-                    {
-                        "name": "New Customer Discount",
-                        "amount": 20
-                    },
-                    {
-                        "name": "$10 Off Coupon",
-                        "amount": 10
-                    }
-                ]
-            };
-            botly.sendReceipt({id: sender, payload: payload}, function (err, data) {
-                console.log("send generic cb:", err, data);
-            });
-        }
-        else {
-            botly.send({id: sender, message: {
-                text: `${users[sender].last_name}, try sending 'list'/'generic'/'receipt'/'quick'/'image'/'buttons' to try out the different types of messages`
-            }}, function (err, data) {
-                console.log("regular send cb:", err, data);
-            });
-        }
+    wit.runActions(
+              sessionId, // the user's current session
+              text, // the user's message
+              sessions[sessionId].context // the user's current session state
+            ).then((context) => {
+              // Our bot did everything it has to do.
+              // Now it's waiting for further messages to proceed.
+              console.log('Waiting for next user messages');
+
+              // Based on the session state, you might want to reset the session.
+              // This depends heavily on the business logic of your bot.
+              // Example:
+              // if (context['done']) {
+              //   delete sessions[sessionId];
+              // }
+
+              // Updating the user's current session state
+              sessions[sessionId].context = context;
+            })
+            .catch((err) => {
+              console.error('Oops! Got an error from Wit: ', err.stack || err);
+            })
+    /*if (users[sender]) {
+
+
     }
     else {
         botly.getUserProfile(sender, function (err, info) {
@@ -156,7 +122,7 @@ botly.on('message', (sender, message, data) => {
                 console.log("send text cb:", err, data);
             });
         });
-    }
+    }*/
 });
 
 botly.on('postback', (sender, message, postback) => {
