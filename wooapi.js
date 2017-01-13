@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const querystring = require('querystring');
 function WooAPI(opt) {
   if (!(this instanceof WooAPI)) {
       return new WooAPI(opt);
