@@ -52,7 +52,7 @@ BotActions.prototype.sendProducts = function(sender,categoryId){
             subtitle: product.short_description,
             buttons: [
                 botly.createWebURLButton("Mua", "http://tnt-react.herokuapp.com/products/"+product.id),
-                botly.createPostbackButton("Thêm vào wishlist", "ADD_WISHLIST_PRODUCT_"+prouduct.id)
+                botly.createPostbackButton("Thêm vào wishlist", "ADD_WISHLIST_PRODUCT_"+product.id)
             ],
 
         };
