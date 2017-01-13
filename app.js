@@ -161,13 +161,20 @@ botly.on('message', (sender, message, data) => {
 
 botly.on('postback', (sender, message, postback) => {
 	 console.log(postback);
-		switch (postback) {
-			case 'start_shopping':
-				botActions.sendCategoriesList(sender)
-				break;
+    if(postback && postback.indexOf("PRODUCT_BY_CATEGORY_") !== -1){
+       let categoryId = parseInt(postback.replace('PRODUCT_BY_CATEGORY_',''))
+       console.log(categoryId)
+       botActions.sendProducts(sender,categoryId);
+    }else{
+      switch (postback) {
+  			case 'start_shopping':
+  				botActions.sendCategoriesList(sender)
+  				break;
 
 
-		}
+  		}
+    }
+
     //console.log("postback:", sender, message, postback);
 });
 
