@@ -74,20 +74,6 @@ const actions = {
 // Setting up our bot
 const wit = new Wit({
   accessToken: Config.WIT_TOKEN,
-  actions: {
-    send(request, response) {
-      return new Promise(function(resolve, reject) {
-        console.log(JSON.stringify(response));
-        return resolve();
-      });
-    },
-    myAction({sessionId, context, text, entities}) {
-      console.log(`Session ${sessionId} received ${text}`);
-      console.log(`The current context is ${JSON.stringify(context)}`);
-      console.log(`Wit extracted ${JSON.stringify(entities)}`);
-      return Promise.resolve(context);
-    }
-  },
   //logger: new log.Logger(log.DEBUG) // optional
 });
 
@@ -100,28 +86,11 @@ botly.on('message', (sender, message, data) => {
     let text = data.text;
     const sessionId = findOrCreateSession(sender);
 
-    wit.runActions(
-              sessionId, // the user's current session
-              text, // the user's message
-              sessions[sessionId].context // the user's current session state
-            ).then((context) => {
-              // Our bot did everything it has to do.
-              // Now it's waiting for further messages to proceed.
-              console.log('Waiting for next user messages');
-
-              // Based on the session state, you might want to reset the session.
-              // This depends heavily on the business logic of your bot.
-              // Example:
-              // if (context['done']) {
-              //   delete sessions[sessionId];
-              // }
-
-              // Updating the user's current session state
-              sessions[sessionId].context = context;
-            })
-            .catch((err) => {
-              console.error('Oops! Got an error from Wit: ', err.stack || err);
-            })
+    wit.message(text, {})
+    .then((data) => {
+      console.log('Yay, got Wit.ai response: ' + JSON.stringify(data));
+    })
+    .catch(console.error);
     /*if (users[sender]) {
 
 
