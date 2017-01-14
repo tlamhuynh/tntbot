@@ -19,7 +19,8 @@ const botActions = new BotActions();
 
 let Wit = null;
 let log = null;
-const {Wit, log} = require('node-wit');
+Wit  = require('node-wit').Wit;
+log =  require('node-wit').log;
 const sessions = {};
 
 const findOrCreateSession = (fbid) => {
@@ -76,7 +77,7 @@ const actions = {
 const wit = new Wit({
   accessToken: Config.WIT_TOKEN,
   actions,
-  //logger: new log.Logger(log.INFO)
+  logger: new log.Logger(log.INFO)
 });
 
 
