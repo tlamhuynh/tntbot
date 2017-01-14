@@ -17,7 +17,8 @@ const botly = new Botly({
 
 const botActions = new BotActions();
 
-
+let Wit = null;
+let log = null;
 const {Wit, log} = require('node-wit');
 const sessions = {};
 
@@ -74,8 +75,10 @@ const actions = {
 // Setting up our bot
 const wit = new Wit({
   accessToken: Config.WIT_TOKEN,
-  //logger: new log.Logger(log.DEBUG) // optional
+  actions,
+  //logger: new log.Logger(log.INFO)
 });
+
 
 
 var app = express();
