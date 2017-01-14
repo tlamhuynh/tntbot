@@ -21,7 +21,7 @@
     "messenger-bot": "^2.4.0",
     "node-fetch": "^1.6.3",
     "node-uuid": "^1.4.7",
-    "node-wit": "^3.3.2",
+    "node-wit": "^4.2.0",
     "request": "^2.71.0"
   },
   "repository": {
