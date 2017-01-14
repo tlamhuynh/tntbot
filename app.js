@@ -56,13 +56,19 @@ const actions = {
       botly.sendText({id: recipientId, text: text}, function (err, data) {
         //log it
       });
-    
+
     } else {
       console.error('Oops! Couldn\'t find user for session:', sessionId);
       // Giving the wheel back to our bot
       return Promise.resolve()
     }
   },
+  priceCoffee({sessionId, context, text, entities}) {
+      console.log(`Session ${sessionId} received ${text}`);
+      console.log(`The current context is ${JSON.stringify(context)}`);
+      console.log(`Wit extracted ${JSON.stringify(entities)}`);
+      return Promise.resolve(context);
+    }
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
 };
