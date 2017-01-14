@@ -88,7 +88,7 @@ const wit = new Wit({
       return Promise.resolve(context);
     }
   },
-  logger: new log.Logger(log.DEBUG) // optional
+  //logger: new log.Logger(log.DEBUG) // optional
 });
 
 
