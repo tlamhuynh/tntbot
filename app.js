@@ -53,16 +53,10 @@ const actions = {
       // Yay, we found our recipient!
       // Let's forward our bot response to her.
       // We return a promise to let our bot know when we're done sending
-      return fbMessage(recipientId, text)
-      .then(() => null)
-      .catch((err) => {
-        console.error(
-          'Oops! An error occurred while forwarding the response to',
-          recipientId,
-          ':',
-          err.stack || err
-        );
+      botly.sendText({id: recipientId, text: text}, function (err, data) {
+        //log it
       });
+    
     } else {
       console.error('Oops! Couldn\'t find user for session:', sessionId);
       // Giving the wheel back to our bot
@@ -90,11 +84,28 @@ botly.on('message', (sender, message, data) => {
     let text = data.text;
     const sessionId = findOrCreateSession(sender);
 
-    wit.message(text, {})
-    .then((data) => {
-      console.log('Yay, got Wit.ai response: ' + JSON.stringify(data));
-    })
-    .catch(console.error);
+    wit.runActions(
+               sessionId, // the user's current session
+               text, // the user's message
+               sessions[sessionId].context // the user's current session state
+             ).then((context) => {
+               // Our bot did everything it has to do.
+               // Now it's waiting for further messages to proceed.
+               console.log('Waiting for next user messages');
+
+               // Based on the session state, you might want to reset the session.
+               // This depends heavily on the business logic of your bot.
+               // Example:
+               // if (context['done']) {
+               //   delete sessions[sessionId];
+               // }
+
+               // Updating the user's current session state
+               sessions[sessionId].context = context;
+             })
+             .catch((err) => {
+               console.error('Oops! Got an error from Wit: ', err.stack || err);
+             })
     /*if (users[sender]) {
 
 
