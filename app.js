@@ -18,8 +18,7 @@ const botly = new Botly({
 const botActions = new BotActions();
 
 
-const Wit = require('node-wit').Wit;
-const log = require('node-wit').log;
+const {Wit, log} = require('node-wit');
 const sessions = {};
 
 const findOrCreateSession = (fbid) => {
