@@ -69,11 +69,11 @@ const actions = {
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
       return Promise.resolve(context);
     },
- ['fetch-customer'](sessionId, context, cb) {
+ ['fetch-customer'](sessionId, context) {
       // Here should go the api call, e.g.:
       // context.forecast = apiCall(context.loc)
       context.customer_name = 'Lam';
-      cb(context);
+      return Promise.resolve(context);
   },
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
