@@ -47,10 +47,15 @@ const findOrCreateSession = (fbid) => {
 const actions = {
   send(request, response) {
     const {sessionId, context, entities} = request;
+    const recipientId = sessions[sessionId].fbid;
     const {text, quickreplies} = response;
     return new Promise(function(resolve, reject) {
         console.log('user said...', request.text);
         console.log('sending...', JSON.stringify(response));
+        botly.sendText({id: recipientId, text: text}, function (err, data) {
+        //log it
+          console.log(err);
+        });
         return resolve();
     });
   },
