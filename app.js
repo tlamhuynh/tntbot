@@ -64,15 +64,21 @@ const actions = {
       console.log(`The current context is ${JSON.stringify(context)}`);
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
       let coffee = entities.coffee.value;
-      context.coffee = coffee;
-      context.cost = '125,000'
+      if (coffee) {
+        context.cost = 'giá cafe ' + coffee+ ' là  125,000VNĐ/kg'; // we should call a weather API here
+        delete context.missingCoffee;
+      } else {
+        context.missingCoffee = true;
+        delete context.cost;
+      }
       return Promise.resolve(context);
     },
  ['send-link-coffee']({sessionId, context,entities}) {
    const recipientId = sessions[sessionId].fbid;
-   console.log(context)
+   let coffee = entities.coffee.value;
+   console.log(entities)
    console.log('send-link_coffee');
-   botActions.sendProduct(recipientId,context.coffee);
+   botActions.sendProduct(recipientId,coffee);
  },
  ['fetch-customer']({context,entities}) {
       // Here should go the api call, e.g.:
