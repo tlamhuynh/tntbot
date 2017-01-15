@@ -72,13 +72,18 @@ const actions = {
   sayHiCustomer({sessionId,context,entities}){
     const recipientId = sessions[sessionId].fbid;
     if (recipientId) {
+      console.log(`The current context is ${JSON.stringify(context)}`);
+      console.log(`Wit extracted ${JSON.stringify(entities)}`);
       // Yay, we found our recipient!
       // Let's forward our bot response to her.
       // We return a promise to let our bot know when we're done sending
       botly.getUserProfile(recipientId, function (err, info) {
         context.customer_name = info.first_name
-        return Promise.resolve(context);
+        console.log(info)
+        //return Promise.resolve(context);
       });
+
+      return Promise.resolve(context);
 
 
     } else {
