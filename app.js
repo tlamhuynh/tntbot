@@ -63,6 +63,8 @@ const actions = {
       console.log(`Session ${sessionId} received ${text}`);
       console.log(`The current context is ${JSON.stringify(context)}`);
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
+      context.coffee = 'robusta';
+      context.cost = '125,000'
       return Promise.resolve(context);
     },
  ['fetch-customer']({context,entities}) {
