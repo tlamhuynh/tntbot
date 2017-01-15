@@ -70,6 +70,7 @@ const actions = {
     },
  ['send-link-coffee']({sessionId, context,entities}) {
    const recipientId = sessions[sessionId].fbid;
+   console.log('send-link_coffee');
    botActions.sendProduct(recipientId,context.coffee);
  },
  ['fetch-customer']({context,entities}) {
