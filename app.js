@@ -63,10 +63,15 @@ const actions = {
       console.log(`Session ${sessionId} received ${text}`);
       console.log(`The current context is ${JSON.stringify(context)}`);
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
-      context.coffee = 'robusta';
+      let coffee = entities.coffee.value;
+      context.coffee = coffee;
       context.cost = '125,000'
       return Promise.resolve(context);
     },
+ ['send-link-coffee']({sessionId, context,entities}) {
+   const recipientId = sessions[sessionId].fbid;
+   botActions.sendProduct(recipientId,context.coffee);
+ },
  ['fetch-customer']({context,entities}) {
       // Here should go the api call, e.g.:
       // context.forecast = apiCall(context.loc)

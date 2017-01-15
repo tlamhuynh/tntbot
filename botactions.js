@@ -72,6 +72,25 @@ BotActions.prototype.sendProducts = function(sender,categoryId){
 
 }
 
+BotActions.prototype.sendProduct = function(sender,product){
+  let element = {
+    "title": product + " thượng hạng",
+    "image_url": "http://coffeetree.vn/ca-phe/image/cache/catalog/hinh-ca-phe/robusta-image-228x228.png",
+    "subtitle": "Giá 155.000 VNĐ/Kg.Cà phê sạch Robusta Nâu Thượng Hạng có vị đắng vừa, mùi hương thơm nhẹ, cafein vừa, chát, hậu vị ngọt.",
+    "buttons": [
+      {
+        "type": "postback",
+        "title": "Mua 155.000 VNĐ/Kg",
+        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_BUY_COFFEE_ROBUSTA"
+      }
+    ]
+  };
+
+  botly.sendGeneric({id: sender, elements: element},function (err, data) {
+      console.log("send generic cb:", err, data);
+  });
+}
+
 
 
 module.exports = BotActions;
