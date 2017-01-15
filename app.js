@@ -68,7 +68,25 @@ const actions = {
       console.log(`The current context is ${JSON.stringify(context)}`);
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
       return Promise.resolve(context);
+    },
+  sayHiCustomer({sessionId,context,entities}){
+    const recipientId = sessions[sessionId].fbid;
+    if (recipientId) {
+      // Yay, we found our recipient!
+      // Let's forward our bot response to her.
+      // We return a promise to let our bot know when we're done sending
+      botly.getUserProfile(sender, function (err, info) {
+        context.customer_name = info.first_name
+        return Promise.resolve(context);
+      });
+
+
+    } else {
+      console.error('Oops! Couldn\'t find user for session:', sessionId);
+      // Giving the wheel back to our bot
+      return Promise.resolve()
     }
+  },
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
 };
