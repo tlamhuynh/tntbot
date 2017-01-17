@@ -113,6 +113,7 @@ var app = express();
 var users = {};
 
 botly.on('message', (sender, message, data) => {
+    console.log("message:", sender, message, data);
     let text = data.text;
     const sessionId = findOrCreateSession(sender);
 
@@ -173,11 +174,11 @@ botly.on('postback', (sender, message, postback) => {
 });
 
 botly.on('delivery', (sender, message, mids) => {
-    //console.log("delivery:", sender, message, mids);
+    console.log("delivery:", sender, message, mids);
 });
 
 botly.on('optin', (sender, message, optin) => {
-    //console.log("optin:", sender, message, optin);
+    console.log("optin:", sender, message, optin);
 });
 
 botly.on('error', (ex) => {
