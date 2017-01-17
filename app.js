@@ -41,7 +41,17 @@ const findOrCreateSession = (fbid) => {
 };
 
 
-
+const firstEntityValue = (entities, entity) => {
+  const val = entities && entities[entity] &&
+    Array.isArray(entities[entity]) &&
+    entities[entity].length > 0 &&
+    entities[entity][0].value
+  ;
+  if (!val) {
+    return null;
+  }
+  return typeof val === 'object' ? val.value : val;
+};
 
 
 const actions = {
@@ -63,7 +73,7 @@ const actions = {
       console.log(`Session ${sessionId} received ${text}`);
       console.log(`The current context is ${JSON.stringify(context)}`);
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
-      let coffee = entities.coffee.value;
+      let coffee = firstEntityValue(entities,'coffee');
       if (coffee) {
         context.cost = 'giá cafe ' + coffee+ ' là  125,000VNĐ/kg'; // we should call a weather API here
         delete context.missingCoffee;
