@@ -117,6 +117,8 @@ var app = express();
 var users = {};
 
 botly.on('message', (sender, message, data) => {
+    console.log(sender);
+    console.log(data);
     let text = data.text;
     const sessionId = findOrCreateSession(sender);
 
