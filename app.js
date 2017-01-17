@@ -41,10 +41,7 @@ const findOrCreateSession = (fbid) => {
 };
 
 
-const firstEntityValue = (entities, entity) => {
-  console.log(entities)
-  return 'culi'
-};
+
 
 
 const actions = {
@@ -59,8 +56,6 @@ const actions = {
         //log it
           console.log(err);
         });
-
-        //quickreplies.map(x => {"title": x, "content_type": "text", "payload": "empty"});
         return resolve();
     });
   },
@@ -68,7 +63,8 @@ const actions = {
       console.log(`Session ${sessionId} received ${text}`);
       console.log(`The current context is ${JSON.stringify(context)}`);
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
-      let coffee = firstEntityValue(entities,'coffee');
+      let coffee = entities.coffee.value;
+      console.log(coffee)
       if (coffee) {
         context.cost = 'giá cafe ' + coffee+ ' là  125,000VNĐ/kg'; // we should call a weather API here
         delete context.missingCoffee;
@@ -117,9 +113,44 @@ var app = express();
 var users = {};
 
 botly.on('message', (sender, message, data) => {
-  let text = `echo: ${data.text}`;
+    let text = data.text;
+    const sessionId = findOrCreateSession(sender);
 
-  botly.sendText(sender, text);
+    wit.runActions(
+               sessionId, // the user's current session
+               text, // the user's message
+               sessions[sessionId].context // the user's current session state
+             ).then((context) => {
+               // Our bot did everything it has to do.
+               // Now it's waiting for further messages to proceed.
+               console.log('Waiting for next user messages');
+
+               // Based on the session state, you might want to reset the session.
+               // This depends heavily on the business logic of your bot.
+               // Example:
+               // if (context['done']) {
+               //   delete sessions[sessionId];
+               // }
+
+               // Updating the user's current session state
+               sessions[sessionId].context = context;
+             })
+             .catch((err) => {
+               console.error('Oops! Got an error from Wit: ', err.stack || err);
+             })
+    /*if (users[sender]) {
+
+
+    }
+    else {
+        botly.getUserProfile(sender, function (err, info) {
+            users[sender] = info;
+
+            botly.sendText({id: sender, text: `${text} ${users[sender].first_name}`}, function (err, data) {
+                console.log("send text cb:", err, data);
+            });
+        });
+    }*/
 });
 
 botly.on('postback', (sender, message, postback) => {
