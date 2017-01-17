@@ -8,7 +8,7 @@ const http = require('http');
 const port = process.env.PORT || 5000;
 const Config = require('./const.js');
 
-const Botly = require("botly");
+const Botly = require("/Botly.js");
 const botly = new Botly({
     verifyToken: Config.FB_VERIFY_TOKEN,
     accessToken: Config.FB_PAGE_TOKEN
