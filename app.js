@@ -174,10 +174,10 @@ botly.on('error', (ex) => {
 
 var pageId = '115560315450397'
 if (pageId) {
-    botly.setGetStarted({pageId: process.env.PAGE_ID, payload: 'GET_STARTED_CLICKED'}, function (err, body) {
+    botly.setGetStarted({pageId: pageId, payload: 'GET_STARTED_CLICKED'}, function (err, body) {
         console.log("welcome cb:", err, body);
     });
-    botly.setPersistentMenu({pageId: process.env.PAGE_ID, buttons: [botly.createPostbackButton('reset', 'reset_me')]}, function (err, body) {
+    botly.setPersistentMenu({pageId: pageId, buttons: [botly.createPostbackButton('reset', 'reset_me')]}, function (err, body) {
         console.log("persistent menu cb:", err, body);
     })
 }
