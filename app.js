@@ -66,6 +66,8 @@ const actions = {
         //log it
           console.log(err);
         });
+
+        //quickreplies.map(x => {"title": x, "content_type": "text", "payload": "empty"});
         return resolve();
     });
   },
