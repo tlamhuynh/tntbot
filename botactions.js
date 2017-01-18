@@ -73,22 +73,27 @@ BotActions.prototype.sendProducts = function(sender,categoryId){
 }
 
 BotActions.prototype.sendProduct = function(sender,product){
-  let element = {
-    "title": product + " thượng hạng",
-    "image_url": "http://coffeetree.vn/ca-phe/image/cache/catalog/hinh-ca-phe/robusta-image-228x228.png",
-    "subtitle": "Giá 155.000 VNĐ/Kg.Cà phê sạch Robusta Nâu Thượng Hạng có vị đắng vừa, mùi hương thơm nhẹ, cafein vừa, chát, hậu vị ngọt.",
-    "buttons": [
-      {
-        "type": "postback",
-        "title": "Mua 155.000 VNĐ/Kg",
-        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_BUY_COFFEE_ROBUSTA"
-      }
-    ]
-  };
+  wooAPI.productsPriceByName(product).then(function(products){
+    product = products[0]; // we should call a weather API here
 
-  botly.sendGeneric({id: sender, elements: element},function (err, data) {
-      console.log("send generic cb:", err, data);
+    let element = {
+      "title": product.name,
+      "image_url": product.images[0].src,
+      "subtitle": product.short_description,
+      "buttons": [
+        {
+          "type": "postback",
+          "title": "Mua",
+          "payload": "BUY_PRODUCT_BY_ID_"+product.id
+        }
+      ]
+    };
+
+    botly.sendGeneric({id: sender, elements: element},function (err, data) {
+        console.log("send generic cb:", err, data);
+    });
   });
+
 }
 
 
