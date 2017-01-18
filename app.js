@@ -75,7 +75,8 @@ const actions = {
       let coffee = firstEntityValue(entities,'coffee');
       console.log(coffee)
       if (coffee) {
-        context.cost = 'giá cafe ' + coffee+ ' là  125,000VNĐ/kg'; // we should call a weather API here
+        context.coffee = coffee
+        context.cost = '125,000VNĐ'; // we should call a weather API here
         delete context.missingCoffee;
       } else {
         context.missingCoffee = true;
@@ -85,8 +86,8 @@ const actions = {
     },
  ['send-link-coffee']({sessionId, context,entities}) {
    const recipientId = sessions[sessionId].fbid;
-   let coffee = entities.coffee.value;
-   console.log(entities)
+   let coffee = context.coffee ;
+   console.log(context);
    console.log('send-link_coffee');
    botActions.sendProduct(recipientId,coffee);
  },
