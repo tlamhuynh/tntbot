@@ -179,12 +179,11 @@ botly.on('message', (sender, message, data) => {
 });
 
 botly.on('postback', (sender, message, postback) => {
-   console.log(message);
    if(message.message.quick_reply.payload == 'empty'){
      const sessionId = findOrCreateSession(sender);
      wit.runActions(
                 sessionId, // the user's current session
-                message.text, // the user's message
+                message.message.text, // the user's message
                 sessions[sessionId].context // the user's current session state
               ).then((context) => {
                 // Our bot did everything it has to do.
