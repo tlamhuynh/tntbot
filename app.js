@@ -90,18 +90,18 @@ const actions = {
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
       let coffee = firstEntityValue(entities,'coffee');
       wooAPI.productsPriceByName(coffee).then(function(data){
-        console.log(data)
+        console.log(data[0])
+        if (coffee) {
+          context.coffee = coffee
+          context.cost = '125,000VNĐ'; // we should call a weather API here
+          delete context.missingCoffee;
+        } else {
+          context.missingCoffee = true;
+          delete context.cost;
+        }
+        return Promise.resolve(context);
       })
-      console.log(coffee)
-      if (coffee) {
-        context.coffee = coffee
-        context.cost = '125,000VNĐ'; // we should call a weather API here
-        delete context.missingCoffee;
-      } else {
-        context.missingCoffee = true;
-        delete context.cost;
-      }
-      return Promise.resolve(context);
+
     },
  ['send-link-coffee']({sessionId, context,entities}) {
    const recipientId = sessions[sessionId].fbid;
