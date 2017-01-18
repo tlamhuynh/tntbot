@@ -58,10 +58,12 @@ const actions = {
     const {sessionId, context, entities} = request;
     const recipientId = sessions[sessionId].fbid;
     const {text, quickreplies} = response;
-    //let quickreplys = [];
-    var quick_replies = quickreplies.map(function(x){
-      return botly.createQuickReply(x,"empty");
-    });
+    let quick_replies = [];
+    if(quickreplies){
+      quick_replies = quickreplies.map(function(x){
+        return botly.createQuickReply(x,"empty");
+      });
+    }
     return new Promise(function(resolve, reject) {
         console.log('user said...', request.text);
         console.log('sending...', JSON.stringify(response));
