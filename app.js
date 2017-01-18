@@ -59,11 +59,13 @@ const actions = {
     const recipientId = sessions[sessionId].fbid;
     const {text, quickreplies} = response;
     //let quickreplys = [];
-    quickreplies.map(x => {"title": x, "payload": "empty"});
+    var quick_replies = quickreplies.map(function(x){
+      return botly.createQuickReply(x,"empty");
+    });
     return new Promise(function(resolve, reject) {
         console.log('user said...', request.text);
         console.log('sending...', JSON.stringify(response));
-        botly.sendText({id: recipientId, text: text, quick_replies: quickreplies}, function (err, data) {
+        botly.sendText({id: recipientId, text: text, quick_replies: quick_replies}, function (err, data) {
         //log it
           console.log(err);
         });
