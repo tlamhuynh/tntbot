@@ -67,10 +67,18 @@ const actions = {
     return new Promise(function(resolve, reject) {
         console.log('user said...', request.text);
         console.log('sending...', JSON.stringify(response));
-        botly.sendText({id: recipientId, text: text, quick_replies: quick_replies}, function (err, data) {
-        //log it
-          console.log(err);
-        });
+        if(quick_replies.length > 0){
+          botly.sendText({id: recipientId, text: text, quick_replies: quick_replies}, function (err, data) {
+          //log it
+            console.log(err);
+          });
+        }else{
+          botly.sendText({id: recipientId, text: text}, function (err, data) {
+          //log it
+            console.log(err);
+          });
+        }
+
         return resolve();
     });
   },
