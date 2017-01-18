@@ -15,4 +15,9 @@ WooAPI.prototype.productsByCategoryId = function(categoryId, per_page = 5){
   return fetch('https://tnt-react.herokuapp.com/api/products?'+querystring.stringify(data)).then((response) => response.json())
 }
 
+
+WooAPI.prototype.productsPriceByName = function(search = ''){
+  var data = {search: search}
+  return fetch('https://tnt-react.herokuapp.com/api/products?'+querystring.stringify(data)).then((response) => response.json())
+}
 module.exports = WooAPI;

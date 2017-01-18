@@ -8,6 +8,8 @@ const http = require('http');
 
 const port = process.env.PORT || 5000;
 const Config = require('./const.js');
+const WooAPI = require('./wooapi.js')
+const wooAPI = new WooAPI();
 const BotActions = require('./botactions.js')
 const Botly = require("botly");
 const botly = new Botly({
@@ -87,6 +89,9 @@ const actions = {
       console.log(`The current context is ${JSON.stringify(context)}`);
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
       let coffee = firstEntityValue(entities,'coffee');
+      wooAPI.productsPriceByName(coffee).then(function(data){
+        console.log(data)
+      })
       console.log(coffee)
       if (coffee) {
         context.coffee = coffee
