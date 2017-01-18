@@ -58,10 +58,12 @@ const actions = {
     const {sessionId, context, entities} = request;
     const recipientId = sessions[sessionId].fbid;
     const {text, quickreplies} = response;
+    //let quickreplys = [];
+    quickreplies.map(x => {"title": x, "payload": "empty"});
     return new Promise(function(resolve, reject) {
         console.log('user said...', request.text);
         console.log('sending...', JSON.stringify(response));
-        botly.sendText({id: recipientId, text: text}, function (err, data) {
+        botly.sendText({id: recipientId, text: text, quick_replies: quickreplies}, function (err, data) {
         //log it
           console.log(err);
         });
@@ -184,7 +186,7 @@ botly.on('postback', (sender, message, postback) => {
 });
 
 botly.on('delivery', (sender, message, mids) => {
-    console.log("delivery:", sender, message, mids);
+    //console.log("delivery:", sender, message, mids);
 });
 
 botly.on('optin', (sender, message, optin) => {
