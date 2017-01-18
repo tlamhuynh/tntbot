@@ -169,6 +169,7 @@ botly.on('message', (sender, message, data) => {
 });
 
 botly.on('postback', (sender, message, postback) => {
+   console.log(message);
 	 console.log(postback);
     if(postback && postback.indexOf("PRODUCT_BY_CATEGORY_") !== -1){
        let categoryId = parseInt(postback.replace('PRODUCT_BY_CATEGORY_',''))
