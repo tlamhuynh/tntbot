@@ -93,9 +93,9 @@ const actions = {
           let coffee = firstEntityValue(entities,'coffee');
           if (coffee) {
             context.coffee = coffee
-            wooAPI.productsPriceByName(coffee).then(function(data){
-              console.log(data[0])
-              context.cost = '125,000VNĐ'; // we should call a weather API here
+            wooAPI.productsPriceByName(coffee).then(function(product){
+
+              context.cost = product.price +' VNĐ'; // we should call a weather API here
               delete context.missingCoffee;
               return resolve(context);
             })
@@ -106,23 +106,6 @@ const actions = {
           }
 
       });
-
-      let coffee = firstEntityValue(entities,'coffee');
-      if (coffee) {
-        console.log(coffee)
-        context.coffee = coffee
-        wooAPI.productsPriceByName(coffee).then(function(product){
-          console.log(data[0])
-          context.cost = product.price; // we should call a weather API here
-          delete context.missingCoffee;
-          return Promise.resolve(context);
-        })
-        //return Promise.resolve(context);
-      }else{
-        context.missingCoffee = true;
-        delete context.cost;
-        return Promise.resolve(context);
-      }
 
 
     },
