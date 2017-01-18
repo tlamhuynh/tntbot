@@ -170,7 +170,7 @@ botly.on('message', (sender, message, data) => {
 
 botly.on('postback', (sender, message, postback) => {
    console.log(message);
-   if(message.quick_reply){
+   if(message.quick_reply.payload == 'empty'){
      const sessionId = findOrCreateSession(sender);
      wit.runActions(
                 sessionId, // the user's current session
