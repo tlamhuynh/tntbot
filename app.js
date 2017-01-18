@@ -93,9 +93,9 @@ const actions = {
           let coffee = firstEntityValue(entities,'coffee');
           if (coffee) {
             context.coffee = coffee
-            wooAPI.productsPriceByName(coffee).then(function(product){
-
-              context.cost = product.price +' VNĐ'; // we should call a weather API here
+            wooAPI.productsPriceByName(coffee).then(function(coffee){
+              context.cost = coffee.price +' VNĐ'; // we should call a weather API here
+              console.log(context)
               delete context.missingCoffee;
               return resolve(context);
             })
