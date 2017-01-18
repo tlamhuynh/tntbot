@@ -170,12 +170,35 @@ botly.on('message', (sender, message, data) => {
 
 botly.on('postback', (sender, message, postback) => {
    console.log(message);
-	 console.log(postback);
-    if(postback && postback.indexOf("PRODUCT_BY_CATEGORY_") !== -1){
+   if(message.quick_reply){
+     const sessionId = findOrCreateSession(sender);
+     wit.runActions(
+                sessionId, // the user's current session
+                message.text, // the user's message
+                sessions[sessionId].context // the user's current session state
+              ).then((context) => {
+                // Our bot did everything it has to do.
+                // Now it's waiting for further messages to proceed.
+                console.log('Waiting for next user messages');
+
+                // Based on the session state, you might want to reset the session.
+                // This depends heavily on the business logic of your bot.
+                // Example:
+                // if (context['done']) {
+                //   delete sessions[sessionId];
+                // }
+
+                // Updating the user's current session state
+                sessions[sessionId].context = context;
+              })
+              .catch((err) => {
+                console.error('Oops! Got an error from Wit: ', err.stack || err);
+              })
+   }else if(postback && postback.indexOf("PRODUCT_BY_CATEGORY_") !== -1){
        let categoryId = parseInt(postback.replace('PRODUCT_BY_CATEGORY_',''))
        console.log(categoryId)
        botActions.sendProducts(sender,categoryId);
-    }else{
+  }else{
       switch (postback) {
   			case 'start_shopping':
   				botActions.sendCategoriesList(sender)
