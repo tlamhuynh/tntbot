@@ -89,18 +89,20 @@ const actions = {
       console.log(`The current context is ${JSON.stringify(context)}`);
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
       let coffee = firstEntityValue(entities,'coffee');
-      wooAPI.productsPriceByName(coffee).then(function(data){
-        console.log(data[0])
-        if (coffee) {
-          context.coffee = coffee
+      if (coffee) {
+        context.coffee = coffee
+        wooAPI.productsPriceByName(coffee).then(function(data){
+          console.log(data[0])
           context.cost = '125,000VNĐ'; // we should call a weather API here
           delete context.missingCoffee;
-        } else {
-          context.missingCoffee = true;
-          delete context.cost;
-        }
+          return Promise.resolve(context);
+        })
+      }else{
+        context.missingCoffee = true;
+        delete context.cost;
         return Promise.resolve(context);
-      })
+      }
+
 
     },
  ['send-link-coffee']({sessionId, context,entities}) {
