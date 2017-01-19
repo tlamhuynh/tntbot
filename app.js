@@ -129,6 +129,25 @@ const actions = {
           return resolve(context);
       });
   },
+  ['tim-san-pham']({sessionId, context,entities}) {
+    console.log(`Session ${sessionId} received ${text}`);
+    console.log(`The current context is ${JSON.stringify(context)}`);
+    console.log(`Wit extracted ${JSON.stringify(entities)}`);
+    return new Promise(function(resolve, reject) {
+        
+        return resolve(context);
+    });
+  },
+  ['table-price-coffee']({sessionId, context,entities}) {
+    console.log(`Session ${sessionId} received ${text}`);
+    console.log(`The current context is ${JSON.stringify(context)}`);
+    console.log(`Wit extracted ${JSON.stringify(entities)}`);
+    return new Promise(function(resolve, reject) {
+
+        return resolve(context);
+    });
+  },
+
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
 };
