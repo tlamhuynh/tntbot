@@ -90,7 +90,7 @@ const actions = {
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
 
       return new Promise(function(resolve, reject) {
-          let coffee = firstEntityValue(entities,'coffee');
+          let coffee = firstEntityValue(entities,'cafe');
           if (coffee) {
             context.coffee = coffee
             wooAPI.productsPriceByName(coffee).then(function(product){
