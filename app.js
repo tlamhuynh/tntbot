@@ -130,16 +130,15 @@ const actions = {
       });
   },
   ['tim-san-pham']({sessionId, context,entities}) {
-    console.log(`Session ${sessionId} received ${text}`);
     console.log(`The current context is ${JSON.stringify(context)}`);
     console.log(`Wit extracted ${JSON.stringify(entities)}`);
     return new Promise(function(resolve, reject) {
-        
+
         return resolve(context);
     });
   },
   ['table-price-coffee']({sessionId, context,entities}) {
-    console.log(`Session ${sessionId} received ${text}`);
+
     console.log(`The current context is ${JSON.stringify(context)}`);
     console.log(`Wit extracted ${JSON.stringify(entities)}`);
     return new Promise(function(resolve, reject) {
