@@ -84,7 +84,7 @@ const actions = {
         return resolve();
     });
   },
-  ['coffee-price']({sessionId, context, entities}) {
+  ['coffee-price']({sessionId, text , context, entities}) {
       console.log(`in actions price-coffee`);
       console.log(` price-coffee Session ${sessionId} received ${text}`);
       console.log(`price-coffee The current context is ${JSON.stringify(context)}`);
