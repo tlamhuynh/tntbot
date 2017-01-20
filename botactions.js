@@ -96,6 +96,28 @@ BotActions.prototype.sendProduct = function(sender,product){
 
 }
 
+BotActions.prototype.sendCoffeeList = function(sender){
+  wooAPI.productsByCategoryId(86,5).then(function(products){
+    let elements = []
+    products.map(function(product){
+      let element = botly.createListElement({
+                      title: product.name,
+                      image_url: product.images[0].src,
+                      subtitle: 'Giá: '+product.price + ' VNĐ',
+                      buttons: [
+                          {title: "Mua", payload: "DO_WORK"},
+                      ],
+                      default_action: {
+                          "url": "http://tnt-react.herokuapp.com/products/"+product.id,
+                      }
+                    });
+      elements.push(element)
+    })
 
+    botly.sendList({id: sender, elements: elements, buttons: botly.createPostbackButton("Continue", "continue"), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE},function (err, data) {
+        console.log("send list cb:", err, data);
+    });
+  });
+}
 
 module.exports = BotActions;

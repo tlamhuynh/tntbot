@@ -139,11 +139,11 @@ const actions = {
     });
   },
   ['table-price-coffee']({sessionId, context,entities}) {
-
+    const recipientId = sessions[sessionId].fbid;
     console.log(`The current context is ${JSON.stringify(context)}`);
     console.log(`Wit extracted ${JSON.stringify(entities)}`);
     return new Promise(function(resolve, reject) {
-
+        botActions.sendCoffeeList(recipientId);
         return resolve(context);
     });
   },
