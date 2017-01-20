@@ -86,9 +86,9 @@ const actions = {
   },
   ['coffee-price']({sessionId, text, context,entities}) {
       console.log(`in actions price-coffee`);
-      console.log(`Session ${sessionId} received ${text}`);
-      console.log(`The current context is ${JSON.stringify(context)}`);
-      console.log(`Wit extracted ${JSON.stringify(entities)}`);
+      console.log(` price-coffee Session ${sessionId} received ${text}`);
+      console.log(`price-coffee The current context is ${JSON.stringify(context)}`);
+      console.log(`price-coffee Wit extracted ${JSON.stringify(entities)}`);
 
       return new Promise(function(resolve, reject) {
           let coffee = firstEntityValue(entities,'cafe');
@@ -131,8 +131,8 @@ const actions = {
       });
   },
   ['tim-san-pham']({sessionId, context,entities}) {
-    console.log(`The current context is ${JSON.stringify(context)}`);
-    console.log(`Wit extracted ${JSON.stringify(entities)}`);
+    console.log(`tim-san-pham The current context is ${JSON.stringify(context)}`);
+    console.log(`tim-san-pham Wit extracted ${JSON.stringify(entities)}`);
     return new Promise(function(resolve, reject) {
 
         return resolve(context);
