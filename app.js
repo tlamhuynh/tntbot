@@ -84,7 +84,8 @@ const actions = {
         return resolve();
     });
   },
-  priceCoffee({sessionId, context, text, entities}) {
+  ['coffee-price']({sessionId, text, context,entities}) {
+      console.log(`in actions price-coffee`);
       console.log(`Session ${sessionId} received ${text}`);
       console.log(`The current context is ${JSON.stringify(context)}`);
       console.log(`Wit extracted ${JSON.stringify(entities)}`);
@@ -100,7 +101,7 @@ const actions = {
             })
           }else{
             context.missingCoffee = true;
-            delete context.cost;
+            delete context.price;
             return resolve(context);
           }
 
