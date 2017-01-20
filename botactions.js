@@ -105,7 +105,7 @@ BotActions.prototype.sendCoffeeList = function(sender){
                       image_url: product.images[0].src,
                       subtitle: 'Giá: '+product.price + ' VNĐ',
                       buttons: [
-                          {title: "Mua", payload: "DO_WORK"},
+                          {title: "Mua", payload: "BUY_PRODUCT_BY_ID_"+product.id},
                       ],
                       default_action: {
                           "url": "http://tnt-react.herokuapp.com/products/"+product.id,
@@ -114,7 +114,7 @@ BotActions.prototype.sendCoffeeList = function(sender){
       elements.push(element)
     })
 
-    botly.sendList({id: sender, elements: elements, buttons: botly.createPostbackButton("Continue", "continue"), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE},function (err, data) {
+    botly.sendList({id: sender, elements: elements, buttons: botly.createWebURLButton("Xem tất cả", "https://tnt-react.herokuapp.com/categories/86"), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE},function (err, data) {
         console.log("send list cb:", err, data);
     });
   });
