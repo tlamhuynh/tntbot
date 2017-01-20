@@ -97,7 +97,7 @@ BotActions.prototype.sendProduct = function(sender,product){
 }
 
 BotActions.prototype.sendCoffeeList = function(sender){
-  wooAPI.productsByCategoryId(86,5).then(function(products){
+  wooAPI.productsByCategoryId(86,4).then(function(products){
     let elements = []
     products.map(function(product){
       let element = botly.createListElement({
