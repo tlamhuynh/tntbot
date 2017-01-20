@@ -96,12 +96,12 @@ const actions = {
             context.coffee = coffee
             wooAPI.productsPriceByName(coffee).then(function(product){
               context.cost = product[0].price +' VNĐ'; // we should call a weather API here
-            //  delete context.missingCoffee;
+              delete context.missingCoffee;
               return resolve(context);
             })
           }else{
-            //context.missingCoffee = true;
-          //  delete context.price;
+            context.missingCoffee = true;
+            delete context.price;
             return resolve(context);
           }
 
