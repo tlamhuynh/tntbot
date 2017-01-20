@@ -84,7 +84,7 @@ const actions = {
         return resolve();
     });
   },
-  ['coffee-price']({sessionId, text, context,entities}) {
+  ['coffee-price']({sessionId, context, entities}) {
       console.log(`in actions price-coffee`);
       console.log(` price-coffee Session ${sessionId} received ${text}`);
       console.log(`price-coffee The current context is ${JSON.stringify(context)}`);
@@ -94,9 +94,9 @@ const actions = {
           let coffee = firstEntityValue(entities,'cafe');
           if (coffee) {
             context.coffee = coffee
+            delete context.missingCoffee;
             wooAPI.productsPriceByName(coffee).then(function(product){
-              context.cost = product[0].price +' VNĐ'; // we should call a weather API here
-              delete context.missingCoffee;
+              context.price = product[0].price +' VNĐ'; // we should call a weather API here
               return resolve(context);
             })
           }else{
@@ -108,7 +108,7 @@ const actions = {
       });
 
 
-    },
+  },
  ['send-link-coffee']({sessionId, context,entities}) {
    const recipientId = sessions[sessionId].fbid;
    let coffee = context.coffee ;
