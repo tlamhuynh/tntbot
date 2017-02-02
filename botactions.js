@@ -120,7 +120,7 @@ BotActions.prototype.sendCoffeeList = function(sender){
   });
 }
 
-BotActions.prototype.sendFindProducts = function(keyword){
+BotActions.prototype.sendFindProducts = function(sender,keyword){
   wooAPI.productsByKeyword(keyword).then(function(products){
     let elements = [];
     products.map(function(product){

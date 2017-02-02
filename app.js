@@ -134,12 +134,17 @@ const actions = {
     console.log(`tim-san-pham The current context is ${JSON.stringify(context)}`);
     console.log(`tim-san-pham Wit extracted ${JSON.stringify(entities)}`);
 
-    if(text){
-      
-    }else{
-
-    }
+    const recipientId = sessions[sessionId].fbid;
     return new Promise(function(resolve, reject) {
+        if(text){
+          botActions.sendFindProducts(recipientId,text)
+        }else{
+          let tips= 'Quý khách nên cung cấp từ khóa đầy đủ để hệ thống tìm kiếm sản phẩm phù hợp.'
+          botly.sendText({id: recipientId, text: tips}, function (err, data) {
+          //log it
+            console.log(err);
+          });
+        }
         return resolve(context);
     });
   },
