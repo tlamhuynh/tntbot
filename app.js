@@ -137,8 +137,8 @@ const actions = {
     const recipientId = sessions[sessionId].fbid;
     return new Promise(function(resolve, reject) {
         if(text){
-          botActions.sendFindProducts(recipientId,text);
-          return resolve(context);
+          botActions.sendFindProducts(recipientId,text,resolve);
+        //  return resolve(context);
         }else{
           let tips= 'Quý khách nên cung cấp từ khóa đầy đủ để hệ thống tìm kiếm sản phẩm phù hợp.'
           botly.sendText({id: recipientId, text: tips}, function (err, data) {
