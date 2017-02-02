@@ -120,4 +120,28 @@ BotActions.prototype.sendCoffeeList = function(sender){
   });
 }
 
+BotActions.prototype.sendFindProducts = function(keyword){
+  wooAPI.productsByKeyword(keyword).then(function(products){
+    let elements = [];
+    products.map(function(product){
+        let element = {
+            title: product.name,
+            image_url: product.images[0].src,
+            subtitle: product.short_description,
+            buttons: [
+                botly.createWebURLButton("Mua", "http://tnt-react.herokuapp.com/products/"+product.id),
+                botly.createPostbackButton("Thêm vào wishlist", "ADD_WISHLIST_PRODUCT_"+product.id)
+            ],
+
+        };
+
+       elements.push(element)
+    });
+
+    botly.sendGeneric({id: sender, elements: elements},function (err, data) {
+        console.log("send generic cb:", err, data);
+    });
+  })
+}
+
 module.exports = BotActions;

@@ -130,11 +130,16 @@ const actions = {
           return resolve(context);
       });
   },
-  ['tim-san-pham']({sessionId, context,entities}) {
+  ['tim-san-pham']({sessionId, text ,context,entities}) {
     console.log(`tim-san-pham The current context is ${JSON.stringify(context)}`);
     console.log(`tim-san-pham Wit extracted ${JSON.stringify(entities)}`);
-    return new Promise(function(resolve, reject) {
 
+    if(text){
+      
+    }else{
+
+    }
+    return new Promise(function(resolve, reject) {
         return resolve(context);
     });
   },
